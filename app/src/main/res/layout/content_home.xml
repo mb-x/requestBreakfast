@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.devgrafix.requestbreakfast.HomeActivity"
+    tools:showIn="@layout/activity_home">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:text="New Breakfast"
+        android:id="@+id/btn_newBreakFast"
+        android:layout_gravity="right"
+        android:layout_marginTop="40dp"
+        android:layout_weight="0.38" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Person"
+        android:id="@+id/btn_newPerson"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Food"
+        android:id="@+id/btn_newFood" />
+
+
+</LinearLayout>
+</android.support.v4.widget.NestedScrollView>
