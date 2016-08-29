@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add"
-        android:id="@+id/btn_add"
-        android:layout_below="@+id/editText"
+        android:id="@+id/btn_save_person"
+        android:layout_below="@+id/txt_person_name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -31,23 +31,12 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:layout_marginTop="40dp"
+        android:id="@+id/txt_person_name"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/txt_person"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Person"
-        android:id="@+id/textView"
-        android:layout_alignBottom="@+id/txt_person"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText"
-        android:textSize="20dp" />
+
 
 </RelativeLayout>

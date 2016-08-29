@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".newPersonActivity" />
+        <activity android:name=".newPersonActivity"
+            android:parentActivityName=".HomeActivity"
+            />
         <activity android:name=".newFoodActivity"></activity>
     </application>
 

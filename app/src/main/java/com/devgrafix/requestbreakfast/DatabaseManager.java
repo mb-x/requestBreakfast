@@ -18,14 +18,14 @@ public class DatabaseManager extends SQLiteOpenHelper{
 
     public static final String TABLE_PERSON_CREATE= "CREATE TABLE IF NOT EXISTS "+ PersonManager.TABLE_NAME +" (" +
             "  id integer primary key autoincrement," +
-            "  "+ PersonManager.NAME+" text not null," +
+            "  "+ PersonManager.NAME+" text not null" +
             ");";
 
     private static final String TABLE_FOOD_CREATE = "CREATE TABLE IF NOT EXISTS "
             + FoodManager.TABLE_NAME + " ("
             +" id integer primary key autoincrement, "
             + FoodManager.NAME + " text not null, "
-            + FoodManager.PRICE + " text not null, "
+            + FoodManager.PRICE + " REAL not null "
             +");";
 
     public static final String TABLE_PERSON_DROP =  "DROP TABLE IF EXISTS " + PersonManager.TABLE_NAME + ";";

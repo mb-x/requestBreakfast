@@ -16,6 +16,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected Button btn_newPerson;
     protected Button btn_newFood;
     protected Button btn_newBreakFast;
+    protected FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +24,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -31,6 +32,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         .setAction("Action", null).show();
             }
         });
+        initViews();
+        initEvents();
     }
 
     protected void initViews(){
@@ -48,7 +51,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         // default method for handling onClick Events..
         Intent nextIntent = null;
         switch (v.getId()) {
-
             case R.id.btn_newPerson:
                 nextIntent = new Intent(HomeActivity.this, newPersonActivity.class);
                 HomeActivity.this.startActivity(nextIntent);
@@ -60,7 +62,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btn_newBreakFast:
-                // do your code
                 break;
 
             default:
