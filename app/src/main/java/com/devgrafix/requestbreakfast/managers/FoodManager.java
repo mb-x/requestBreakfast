@@ -1,31 +1,29 @@
-package com.devgrafix.requestbreakfast;
+package com.devgrafix.requestbreakfast.managers;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * Created by sbxramses on 17/04/16.
  */
-public class PersonManager extends EntityManager {
-    public static final String TABLE_NAME= "tbl_person";
+public class FoodManager extends EntityManager {
+    public static final String TABLE_NAME= "tbl_food";
 
     public static final String ID= "id";
 
-    public static final String NAME= "person_name";
+    public static final String NAME= "food_name";
+    public static final String PRICE= "food_price";
 
 
 
 
-    private String[] allColumns = { ID, NAME };
+    private String[] allColumns = { ID, NAME, PRICE };
 
-    public PersonManager(Context context) {
+    public FoodManager(Context context) {
         super(context);
     }
 
@@ -57,13 +55,14 @@ public class PersonManager extends EntityManager {
     /**
      *
      */
-    public long add(String personName){
+    public long add(String foodName, String price){
         //Log.e("Folder Add", entity.getName()+" -- "+entity.getOrder());
         long insertId = 0;
         try {
             open();
             ContentValues contentValues = new ContentValues();
-            contentValues.put(NAME, personName);
+            contentValues.put(NAME, foodName);
+            contentValues.put(PRICE, price);
             insertId = database.insert(TABLE_NAME, null, contentValues);
         }catch (SQLException e){
             e.printStackTrace();
@@ -88,20 +87,21 @@ public class PersonManager extends EntityManager {
     /**
      *
      */
-    public void edit(Long id, String name) {
+    public void edit(Long id, String name, String price) {
     }
     /**
      * @param id l'identifiant du métier à récupérer
      */
     public String[] findById(long id) {
-        String[] person = new String[2];
+        String[] food = new String[3];
         try {
             open();
             Cursor cursor =  database.query(TABLE_NAME, allColumns, ID + " = " + id, null,
                     null, null, null);
             cursor.moveToFirst();
-            person[0] = Long.toString(cursor.getLong(0));
-            person[1] = cursor.getString(1);
+            food[0] = Long.toString(cursor.getLong(0));
+            food[1] = cursor.getString(1);
+            food[3] = cursor.getString(2);
             cursor.close();
         }catch (SQLException e){
             e.printStackTrace();
@@ -109,7 +109,7 @@ public class PersonManager extends EntityManager {
             close();
         }
 
-        return person;
+        return food;
     }
 
 

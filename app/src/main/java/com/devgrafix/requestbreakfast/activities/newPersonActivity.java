@@ -1,12 +1,14 @@
-package com.devgrafix.requestbreakfast;
+package com.devgrafix.requestbreakfast.activities;
 
-import android.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.devgrafix.requestbreakfast.managers.PersonManager;
+import com.devgrafix.requestbreakfast.R;
 
 public class newPersonActivity extends AppCompatActivity {
 

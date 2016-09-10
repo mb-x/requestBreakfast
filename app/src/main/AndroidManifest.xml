@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".HomeActivity"
+            android:name=".activities.HomeActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -18,10 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".newPersonActivity"
-            android:parentActivityName=".HomeActivity"
-            />
-        <activity android:name=".newFoodActivity"></activity>
+        <activity
+            android:name=".activities.newPersonActivity"
+            android:parentActivityName=".activities.HomeActivity" />
+        <activity android:name=".activities.newFoodActivity"
+            android:parentActivityName=".activities.HomeActivity"/>
+        <activity android:name=".activities.listPresonsActivity"
+            android:parentActivityName=".activities.HomeActivity"></activity>
     </application>
 
 </manifest>

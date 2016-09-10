@@ -1,4 +1,4 @@
-package com.devgrafix.requestbreakfast;
+package com.devgrafix.requestbreakfast.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +11,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
+import com.devgrafix.requestbreakfast.R;
+
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     protected Button btn_newPerson;
     protected Button btn_newFood;
     protected Button btn_newBreakFast;
+    protected Button btn_listPersons;
+    protected Button btn_listFoods;
     protected FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +44,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         btn_newFood = (Button)findViewById(R.id.btn_newFood);
         btn_newPerson = (Button)findViewById(R.id.btn_newPerson);
         btn_newBreakFast = (Button)findViewById(R.id.btn_newBreakFast);
+        btn_listPersons = (Button) findViewById(R.id.btn_listPersons);
+        btn_listFoods = (Button) findViewById(R.id.btn_listFoods);
     }
     protected void initEvents(){
         btn_newFood.setOnClickListener(this); // calling onClick() method
         btn_newPerson.setOnClickListener(this);
         btn_newBreakFast.setOnClickListener(this);
+        btn_listFoods.setOnClickListener(this);
+        btn_listPersons.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -63,7 +71,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn_newBreakFast:
                 break;
-
+            case R.id.btn_listFoods:
+                break;
+            case R.id.btn_listPersons:
+                nextIntent = new Intent(HomeActivity.this, listPresonsActivity.class);
+                HomeActivity.this.startActivity(nextIntent);
+                break;
             default:
                 break;
         }

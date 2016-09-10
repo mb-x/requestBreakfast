@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.devgrafix.requestbreakfast.HomeActivity"
+    tools:context=".activities.HomeActivity"
     tools:showIn="@layout/activity_home">
 <LinearLayout
     android:layout_width="match_parent"
@@ -21,6 +21,19 @@
         android:layout_gravity="right"
         android:layout_marginTop="40dp"
         android:layout_weight="0.38" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="List Persons"
+        android:id="@+id/btn_listPersons"
+        android:layout_marginTop="20dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="List Foods"
+        android:id="@+id/btn_listFoods" />
 
     <Button
         android:layout_width="match_parent"

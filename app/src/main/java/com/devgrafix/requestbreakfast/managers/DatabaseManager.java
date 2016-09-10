@@ -1,4 +1,4 @@
-package com.devgrafix.requestbreakfast;
+package com.devgrafix.requestbreakfast.managers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
