@@ -65,13 +65,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btn_newFood:
-                nextIntent = new Intent(HomeActivity.this, newPersonActivity.class);
+                nextIntent = new Intent(HomeActivity.this, newFoodActivity.class);
                 HomeActivity.this.startActivity(nextIntent);
                 break;
 
             case R.id.btn_newBreakFast:
                 break;
             case R.id.btn_listFoods:
+                nextIntent = new Intent(HomeActivity.this, ListFoodActivity.class);
+                HomeActivity.this.startActivity(nextIntent);
                 break;
             case R.id.btn_listPersons:
                 nextIntent = new Intent(HomeActivity.this, listPresonsActivity.class);

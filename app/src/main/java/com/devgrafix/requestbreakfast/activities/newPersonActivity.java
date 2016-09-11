@@ -19,10 +19,7 @@ public class newPersonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_person);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle("Add New Person");
+        setActionBar("Add New Person");
         txtPersonName = (TextView)findViewById(R.id.txt_person_name);
         btnSave = (Button)findViewById(R.id.btn_save_person);
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -34,5 +31,11 @@ public class newPersonActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "The Person "+personName+" is successfully saved", Toast.LENGTH_LONG).show();
             }
         });
+    }
+    protected void setActionBar(String title){
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle(title);
     }
 }

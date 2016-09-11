@@ -21,9 +21,13 @@
         <activity
             android:name=".activities.newPersonActivity"
             android:parentActivityName=".activities.HomeActivity" />
-        <activity android:name=".activities.newFoodActivity"
-            android:parentActivityName=".activities.HomeActivity"/>
-        <activity android:name=".activities.listPresonsActivity"
+        <activity
+            android:name=".activities.newFoodActivity"
+            android:parentActivityName=".activities.HomeActivity" />
+        <activity
+            android:name=".activities.listPresonsActivity"
+            android:parentActivityName=".activities.HomeActivity" />
+        <activity android:name=".activities.ListFoodActivity"
             android:parentActivityName=".activities.HomeActivity"></activity>
     </application>
 

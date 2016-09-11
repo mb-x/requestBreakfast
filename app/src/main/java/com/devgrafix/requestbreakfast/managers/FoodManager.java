@@ -4,7 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.devgrafix.requestbreakfast.model.Food;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -28,19 +32,20 @@ public class FoodManager extends EntityManager {
     }
 
 
-    public Cursor findAll() {
+    public List<Food> findAll() {
         Cursor cursor = null;
+        List<Food> foods = new ArrayList<>();
         try{
             this.open();
             cursor = database.query(TABLE_NAME,
                     allColumns, null, null, null, null, null);
 
-            /*cursor.moveToFirst();
+            cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                Folder folder = cursorToEntity(cursor);
-                folders.add(folder);
+                Food food = cursorToEntity(cursor);
+                foods.add(food);
                 cursor.moveToNext();
-            }*/
+            }
             // assurez-vous de la fermeture du curseur
             //cursor.close();
         }catch (SQLException e){
@@ -49,13 +54,13 @@ public class FoodManager extends EntityManager {
             this.close();
         }
 
-        return cursor;
+        return foods;
     }
 
     /**
      *
      */
-    public long add(String foodName, String price){
+    public long add(String foodName, Float price){
         //Log.e("Folder Add", entity.getName()+" -- "+entity.getOrder());
         long insertId = 0;
         try {
@@ -113,6 +118,14 @@ public class FoodManager extends EntityManager {
     }
 
 
+    protected Food cursorToEntity(Cursor cursor){
+
+        Food food = new Food();
+        food.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+        food.setFoodName(cursor.getString(cursor.getColumnIndex(NAME)));
+        food.setFoodPrice(cursor.getFloat(cursor.getColumnIndex(PRICE)));
+        return food;
+    }
 
 
 
