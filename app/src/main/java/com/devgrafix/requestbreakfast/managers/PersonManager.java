@@ -91,20 +91,45 @@ public class PersonManager extends EntityManager {
     /**
      *
      */
-    public void edit(Long id, String name) {
+    public void update(Person person) {
+        try {
+            open();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(NAME, person.getPseudo());
+            database.update(TABLE_NAME, contentValues, ID + " = ?",
+                    new String[]{String.valueOf(person.getId()) });
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            close();
+        }
+    }
+    public int getCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_NAME;
+        int count = 0;
+        try{
+            open();
+            Cursor cursor = database.rawQuery(countQuery, null);
+            cursor.close();
+            count = cursor.getCount();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            close();
+        }
+        return count;
     }
     /**
      * @param id l'identifiant du métier à récupérer
      */
-    public String[] findById(long id) {
-        String[] person = new String[2];
+    public Person findById(long id) {
+        Person person= null;
         try {
             open();
             Cursor cursor =  database.query(TABLE_NAME, allColumns, ID + " = " + id, null,
                     null, null, null);
             cursor.moveToFirst();
-            person[0] = Long.toString(cursor.getLong(0));
-            person[1] = cursor.getString(1);
+            person = cursorToEntity(cursor);
             cursor.close();
         }catch (SQLException e){
             e.printStackTrace();
