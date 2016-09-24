@@ -33,8 +33,10 @@
         <activity
             android:name=".activities.listPresonsActivity"
             android:parentActivityName=".activities.HomeActivity" />
-        <activity android:name=".activities.ListFoodActivity"
-            android:parentActivityName=".activities.HomeActivity"></activity>
+        <activity
+            android:name=".activities.ListFoodActivity"
+            android:parentActivityName=".activities.HomeActivity" />
+        <activity android:name=".activities.BreakfastActivity"></activity>
     </application>
 
 </manifest>
