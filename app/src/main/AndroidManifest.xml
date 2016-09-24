@@ -28,6 +28,9 @@
             android:name=".activities.editPersonActivity"
             android:parentActivityName=".activities.listPresonsActivity" />
         <activity
+            android:name=".activities.editFoodActivity"
+            android:parentActivityName=".activities.ListFoodActivity" />
+        <activity
             android:name=".activities.listPresonsActivity"
             android:parentActivityName=".activities.HomeActivity" />
         <activity android:name=".activities.ListFoodActivity"

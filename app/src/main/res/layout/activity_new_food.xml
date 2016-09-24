@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Food"
+        android:text="Food"
         android:id="@+id/textView2"
         android:textSize="20dp"
         android:layout_marginBottom="40dp" />
@@ -43,7 +43,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add"
+        android:text="Save"
         android:id="@+id/btn_save_food"
         android:layout_gravity="center_horizontal" />
 

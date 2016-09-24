@@ -92,21 +92,31 @@ public class FoodManager extends EntityManager {
     /**
      *
      */
-    public void edit(Long id, String name, String price) {
+    public void update(Food food) {
+        try {
+            open();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(NAME, food.getFoodName());
+            contentValues.put(PRICE, food.getFoodPrice());
+            database.update(TABLE_NAME, contentValues, ID + " = ?",
+                    new String[]{String.valueOf(food.getId()) });
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            close();
+        }
     }
     /**
      * @param id l'identifiant du métier à récupérer
      */
-    public String[] findById(long id) {
-        String[] food = new String[3];
+    public Food findById(long id) {
+        Food food = null;
         try {
             open();
             Cursor cursor =  database.query(TABLE_NAME, allColumns, ID + " = " + id, null,
                     null, null, null);
             cursor.moveToFirst();
-            food[0] = Long.toString(cursor.getLong(0));
-            food[1] = cursor.getString(1);
-            food[3] = cursor.getString(2);
+            food = cursorToEntity(cursor);
             cursor.close();
         }catch (SQLException e){
             e.printStackTrace();

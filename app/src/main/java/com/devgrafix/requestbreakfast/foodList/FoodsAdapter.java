@@ -5,11 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.devgrafix.requestbreakfast.R;
 import com.devgrafix.requestbreakfast.model.Food;
 
@@ -20,31 +23,36 @@ import java.util.List;
  */
 public class FoodsAdapter extends RecyclerView.Adapter<FoodViewHolder> {
     private List<Food> foodsList;
+    private Food food;
     static Context context;
-    private int position;
-    ContextMenu.ContextMenuInfo info;
 
 
-    public FoodsAdapter(List<Food> foodList, Context context){
+    public FoodsAdapter(Context context, List<Food> foodList){
         this.foodsList = foodList;
         this.context = context;
     }
     public FoodViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_food_row, parent, false);
-        return new FoodViewHolder(itemView);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_card, parent, false);
+        return new FoodViewHolder(itemView, context, foodsList);
     }
     public void onBindViewHolder(FoodViewHolder holder, int position){
-        Food food = foodsList.get(position);
-        holder.foodName.setText(food.getFoodName());
-        holder.foodPrice.setText(String.valueOf(food.getFoodPrice()));
-        this.position = position;
+        this.food = foodsList.get(position);
+
+        holder.bindData(food);
+        // loading album cover using Glide library
+        //Glide.with(this.context).load(food.getThumbnail()).into(holder.thumbnail);
+
     }
-    public Food getSelectedFood(){
-        return foodsList.get(position);
+    public List<Food> getFoodsList(){
+        return this.foodsList;
     }
-    public int getPosition(){
-        return position;
+
+    public void setFoodsList(List<Food> foodsList){
+        this.foodsList = foodsList;
+
     }
+
+
     public int getItemCount(){
         return foodsList.size();
     }
