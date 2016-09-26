@@ -40,4 +40,9 @@ public class Food {
     public void setFoodPrice(Float foodPrice) {
         this.foodPrice = foodPrice;
     }
+
+    @Override
+    public String toString() {
+        return foodName + " : " + foodPrice + " DH";
+    }
 }

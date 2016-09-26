@@ -36,7 +36,8 @@
         <activity
             android:name=".activities.ListFoodActivity"
             android:parentActivityName=".activities.HomeActivity" />
-        <activity android:name=".activities.BreakfastActivity"></activity>
+        <activity android:name=".activities.BreakfastActivity"
+            android:parentActivityName=".activities.HomeActivity" ></activity>
     </application>
 
 </manifest>

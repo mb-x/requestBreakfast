@@ -11,25 +11,35 @@ public class DatabaseManager extends SQLiteOpenHelper{
 
 
 
-    protected final static int VERSION = 1;
+    protected final static int VERSION = 2;
     protected final static String DATABASE_NAME = "database.db";
 
 
 
     public static final String TABLE_PERSON_CREATE= "CREATE TABLE IF NOT EXISTS "+ PersonManager.TABLE_NAME +" (" +
             "  id integer primary key autoincrement," +
-            "  "+ PersonManager.NAME+" text not null" +
+            "  "+ PersonManager.NAME+" text not null," +
+            "  "+ PersonManager.AVATAR+" text " +
             ");";
 
     private static final String TABLE_FOOD_CREATE = "CREATE TABLE IF NOT EXISTS "
             + FoodManager.TABLE_NAME + " ("
             +" id integer primary key autoincrement, "
             + FoodManager.NAME + " text not null, "
-            + FoodManager.PRICE + " REAL not null "
+            + FoodManager.PRICE + " REAL not null, "
+            + FoodManager.IMAGE + " text "
             +");";
 
+    private static final String TABLE_BREAKFAST_CREATE = "CREATE TABLE IF NOT EXISTS "
+            + BreakfastManager.TABLE_NAME + " ("
+            + BreakfastManager.ID_PERSON + " integer not null, "
+            + BreakfastManager.ID_FOOD + " integer not null, "
+            + BreakfastManager.DATE_BREAKFAST + " text not null, "
+            + BreakfastManager.QUANTITY + " integer not null "
+            +");";
     public static final String TABLE_PERSON_DROP =  "DROP TABLE IF EXISTS " + PersonManager.TABLE_NAME + ";";
     public static final String TABLE_FOOD_DROP =  "DROP TABLE IF EXISTS " +FoodManager.TABLE_NAME + ";";
+    public static final String TABLE_BREAKFAST_DROP =  "DROP TABLE IF EXISTS " +BreakfastManager.TABLE_NAME + ";";
 
     public DatabaseManager(Context context) {
         super(context, DATABASE_NAME,null, VERSION);
@@ -45,6 +55,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TABLE_PERSON_CREATE);
         db.execSQL(TABLE_FOOD_CREATE);
+        db.execSQL(TABLE_BREAKFAST_CREATE);
     }
 
     /**
@@ -57,6 +68,7 @@ public class DatabaseManager extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(TABLE_PERSON_DROP);
         db.execSQL(TABLE_FOOD_DROP);
+        db.execSQL(TABLE_BREAKFAST_DROP);
         onCreate(db);
     }
 }

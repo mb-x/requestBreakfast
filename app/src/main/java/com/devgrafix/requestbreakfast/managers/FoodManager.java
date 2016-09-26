@@ -21,6 +21,7 @@ public class FoodManager extends EntityManager {
 
     public static final String NAME= "food_name";
     public static final String PRICE= "food_price";
+    public static final String IMAGE= "food_image";
 
 
 

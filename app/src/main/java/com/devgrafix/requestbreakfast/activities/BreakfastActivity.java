@@ -43,11 +43,7 @@ public class BreakfastActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         for (int i= 0; i < personList.size(); i++){
-            BreakfastFragment nFragement = new BreakfastFragment();
-            Bundle args = new Bundle();
-            args.putString(BreakfastFragment.ARG_PSEUDO, personList.get(i).getPseudo());
-            nFragement.setArguments(args);
-            adapter.addFragment(nFragement, personList.get(i).getPseudo());
+            adapter.addFragment(BreakfastFragment.newInstance(personList.get(i)), personList.get(i).getPseudo());
         }
 
         viewPager.setAdapter(adapter);

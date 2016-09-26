@@ -1,6 +1,7 @@
 package com.devgrafix.requestbreakfast.Fragments;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,9 +9,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.devgrafix.requestbreakfast.R;
+import com.devgrafix.requestbreakfast.managers.FoodManager;
+import com.devgrafix.requestbreakfast.model.Breakfast;
+import com.devgrafix.requestbreakfast.model.Food;
+import com.devgrafix.requestbreakfast.model.Person;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,18 +37,24 @@ import com.devgrafix.requestbreakfast.R;
  * Use the {@link BreakfastFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BreakfastFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    public static final String ARG_PSEUDO = "";
-    public static final String ARG_PARAM2 = "param2";
+public class BreakfastFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
-    // TODO: Rename and change types of parameters
-    private String mPseudo;
-    private String mParam2;
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    public static final String ARG_PERSON = "personObject";
+
+
+    private Person mPerson;
+    private List<Food> foodList;
+    private List<Breakfast> breakfastList = new ArrayList<Breakfast>();
+    private FoodManager foodManager;
 
     private View view;
     private TextView textView;
+    private TableLayout tableFood;
+    private Spinner spinnerFood;
+    private EditText inputQuantity;
+    private Button addFoodItem;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -42,9 +65,10 @@ public class BreakfastFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mPseudo = getArguments().getString(ARG_PSEUDO);
-
+            mPerson = (Person) getArguments().getSerializable(ARG_PERSON);
         }
+        foodManager = new FoodManager(getContext());
+        Toast.makeText(getContext(), "onCreate", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -52,33 +76,116 @@ public class BreakfastFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_breakfast, container, false);
-        textView = (TextView) view.findViewById(R.id.txt_fragment);
+        initViews(view);
+        Toast.makeText(getContext(), "onCreateView", Toast.LENGTH_SHORT).show();
         return view;
+    }
+    private void initViews(View parentView){
+        textView = (TextView) parentView.findViewById(R.id.txt_person_name);
+        tableFood = (TableLayout) parentView.findViewById(R.id.table_food);
+        spinnerFood = (Spinner) parentView.findViewById(R.id.spinner_foods);
+        inputQuantity= (EditText) parentView.findViewById(R.id.inputQuantity);
+        addFoodItem = (Button) parentView.findViewById(R.id.btn_add_food_item);
+
+    }
+
+    private void initEvents(){
+        addFoodItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Breakfast breakfast = new Breakfast(mPerson,
+                        (Food)spinnerFood.getSelectedItem(),
+                        Integer.valueOf(inputQuantity.getText().toString())
+                );
+                breakfastList.add(breakfast);
+                addBreakfastToTable(breakfast);
+            }
+        });
     }
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textView.setText(mPseudo);
+        Toast.makeText(getContext(), "onActivityCreated", Toast.LENGTH_SHORT).show();
+        textView.setText(mPerson.getPseudo());
+        foodList = foodManager.findAll();
+        ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, foodList);
+        spinnerFood.setAdapter(spinnerArrayAdapter);
+        initEvents();
+        /*for (int i=0; i < foodList.size(); i++){
+
+        }*/
+    }
+
+    public void addBreakfastToTable(Breakfast breakfast){
+        TableRow tr = new TableRow(getContext());
+       // tr.setId(i);
+       // tr.setBackgroundColor((i%2 == 0 )? Color.WHITE: Color.LTGRAY);
+        //tr.setBackgroundColor(Color.GRAY);
+        tr.setLayoutParams(new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT));
+        TextView label_food = new TextView(getContext());
+        label_food.setId(breakfast.getFood().getId());
+        label_food.setText(breakfast.getFood().getFoodName());
+        label_food.setTextColor(Color.BLACK);
+        label_food.setPadding(15, 15, 15, 15);
+        label_food.setLayoutParams(new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT,
+                1
+        ));
+        tr.addView(label_food);
+        TextView price_food = new TextView(getContext());
+        price_food.setId(breakfast.getFood().getId());
+        price_food.setText(String.valueOf(breakfast.getFood().getFoodPrice()));
+        price_food.setTextColor(Color.BLACK);
+        price_food.setPadding(15, 15, 15, 15);
+        price_food.setLayoutParams(new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT, 1
+        ));
+        tr.addView(price_food);
+        TextView q_food = new TextView(getContext());
+        //price_food.setId(breakfast.getFood().getId());
+        q_food.setText(String.valueOf(breakfast.getQuantity()));
+        q_food.setTextColor(Color.BLACK);
+        q_food.setPadding(15, 15, 15, 15);
+        q_food.setLayoutParams(new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT, 1
+        ));
+        tr.addView(q_food);
+        tableFood.addView(tr, new TableLayout.LayoutParams(
+                TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.WRAP_CONTENT));
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param person Parameter 1.
      * @return A new instance of fragment BreakfastFragment.
      */
     // TODO: Rename and change types and number of parameters
-   /* public static BreakfastFragment newInstance(String param1, String param2) {
+  public static BreakfastFragment newInstance(Person person) {
         BreakfastFragment fragment = new BreakfastFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PERSON, person);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+ /*
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

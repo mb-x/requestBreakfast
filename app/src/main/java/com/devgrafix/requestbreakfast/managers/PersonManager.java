@@ -21,6 +21,7 @@ public class PersonManager extends EntityManager {
 
     public static final String NAME= "person_name";
 
+    public static final String AVATAR= "person_avatar";
 
 
 

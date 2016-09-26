@@ -1,9 +1,11 @@
 package com.devgrafix.requestbreakfast.model;
 
+import java.io.Serializable;
+
 /**
  * Created by PC-MA13 on 10/09/2016.
  */
-public class Person {
+public class Person implements Serializable {
     private int id;
     private String pseudo;
     private String description;
