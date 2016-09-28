@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.devgrafix.requestbreakfast.R;
-import com.devgrafix.requestbreakfast.managers.PersonManager;
+
 import com.devgrafix.requestbreakfast.model.Person;
 
 /**
@@ -17,14 +17,14 @@ import com.devgrafix.requestbreakfast.model.Person;
  */
 public class editPersonActivity extends AppCompatActivity {
 
-    protected int personId;
+    protected long personId;
     protected Button btnSave;
     protected TextView txtPersonName;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_person);
         Intent intent = getIntent();
-        personId = intent.getIntExtra("personId", 0);
+        personId = intent.getLongExtra("personId", 0);
         String personName= intent.getStringExtra("personName");
 
         txtPersonName = (TextView)findViewById(R.id.txt_person_name);
@@ -33,11 +33,12 @@ public class editPersonActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PersonManager personManager = new PersonManager(getApplicationContext());
+
                 String personName = txtPersonName.getText().toString();
-                Person person = personManager.findById(personId);
+                Person person = Person.getOneById(personId);
+
                 person.setPseudo(personName);
-                personManager.update(person);
+                person.save();
                 Intent newIntent = new Intent();
                 newIntent.putExtra("personName", person.getPseudo());
                 setResult(listPresonsActivity.EDIT_PERSON_REQUEST, newIntent);

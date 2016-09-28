@@ -7,8 +7,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.devgrafix.requestbreakfast.managers.PersonManager;
 import com.devgrafix.requestbreakfast.R;
+import com.devgrafix.requestbreakfast.model.Person;
 
 public class newPersonActivity extends AppCompatActivity {
 
@@ -25,9 +25,12 @@ public class newPersonActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PersonManager personManager = new PersonManager(getApplicationContext());
+                //PersonManager personManager = new PersonManager(getApplicationContext());
                 String personName = txtPersonName.getText().toString();
-                personManager.add(personName);
+                //personManager.add(personName);
+                Person person = new Person();
+                person.setPseudo(personName);
+                person.save();
                 Toast.makeText(getApplicationContext(), "The Person "+personName+" is successfully saved", Toast.LENGTH_LONG).show();
             }
         });

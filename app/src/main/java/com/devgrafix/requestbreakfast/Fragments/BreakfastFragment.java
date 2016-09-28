@@ -20,13 +20,14 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.devgrafix.requestbreakfast.R;
-import com.devgrafix.requestbreakfast.managers.FoodManager;
 import com.devgrafix.requestbreakfast.model.Breakfast;
 import com.devgrafix.requestbreakfast.model.Food;
 import com.devgrafix.requestbreakfast.model.Person;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,7 +47,6 @@ public class BreakfastFragment extends Fragment implements AdapterView.OnItemSel
     private Person mPerson;
     private List<Food> foodList;
     private List<Breakfast> breakfastList = new ArrayList<Breakfast>();
-    private FoodManager foodManager;
 
     private View view;
     private TextView textView;
@@ -67,8 +67,8 @@ public class BreakfastFragment extends Fragment implements AdapterView.OnItemSel
         if (getArguments() != null) {
             mPerson = (Person) getArguments().getSerializable(ARG_PERSON);
         }
-        foodManager = new FoodManager(getContext());
-        Toast.makeText(getContext(), "onCreate", Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(getContext(), "onCreate", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -77,7 +77,7 @@ public class BreakfastFragment extends Fragment implements AdapterView.OnItemSel
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_breakfast, container, false);
         initViews(view);
-        Toast.makeText(getContext(), "onCreateView", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "onCreateView", Toast.LENGTH_SHORT).show();
         return view;
     }
     private void initViews(View parentView){
@@ -94,25 +94,41 @@ public class BreakfastFragment extends Fragment implements AdapterView.OnItemSel
             @Override
             public void onClick(View v) {
                 Breakfast breakfast = new Breakfast(mPerson,
-                        (Food)spinnerFood.getSelectedItem(),
-                        Integer.valueOf(inputQuantity.getText().toString())
+                        (Food) spinnerFood.getSelectedItem(),
+                        Integer.valueOf(inputQuantity.getText().toString()), Breakfast.convertDateToFormatedString(new Date())
                 );
-                breakfastList.add(breakfast);
-                addBreakfastToTable(breakfast);
+                breakfast.save();
+                refreshTable();
             }
         });
     }
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Toast.makeText(getContext(), "onActivityCreated", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "onActivityCreated", Toast.LENGTH_SHORT).show();
         textView.setText(mPerson.getPseudo());
-        foodList = foodManager.findAll();
+        foodList = Food.getAll();
         ArrayAdapter spinnerArrayAdapter = new ArrayAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, foodList);
         spinnerFood.setAdapter(spinnerArrayAdapter);
         initEvents();
-        /*for (int i=0; i < foodList.size(); i++){
+        fillTableFromDatabase();
+    }
+    public void fillTableFromDatabase(){
+        breakfastList = Breakfast.findByPersonAndDate(mPerson, Breakfast.convertDateToFormatedString(new Date()));
+        for(int i=0 ; i < breakfastList.size() ; i++){
+            addBreakfastToTable(breakfastList.get(i));
+        }
+    }
 
-        }*/
+    public void refreshTable(){
+
+        int rowCount = tableFood.getChildCount();
+        for(int i = 0; i < tableFood.getChildCount(); i++){
+            if(i > 0) {
+                tableFood.removeViewAt(i);
+                i--;
+            }
+        }
+        fillTableFromDatabase();
     }
 
     public void addBreakfastToTable(Breakfast breakfast){
@@ -124,7 +140,7 @@ public class BreakfastFragment extends Fragment implements AdapterView.OnItemSel
                 TableRow.LayoutParams.MATCH_PARENT,
                 TableRow.LayoutParams.WRAP_CONTENT));
         TextView label_food = new TextView(getContext());
-        label_food.setId(breakfast.getFood().getId());
+        //label_food.setId(Integer.valueOf(breakfast.getFood().getId()));
         label_food.setText(breakfast.getFood().getFoodName());
         label_food.setTextColor(Color.BLACK);
         label_food.setPadding(15, 15, 15, 15);
@@ -135,7 +151,7 @@ public class BreakfastFragment extends Fragment implements AdapterView.OnItemSel
         ));
         tr.addView(label_food);
         TextView price_food = new TextView(getContext());
-        price_food.setId(breakfast.getFood().getId());
+       // price_food.setId(breakfast.getFood().getId());
         price_food.setText(String.valueOf(breakfast.getFood().getFoodPrice()));
         price_food.setTextColor(Color.BLACK);
         price_food.setPadding(15, 15, 15, 15);

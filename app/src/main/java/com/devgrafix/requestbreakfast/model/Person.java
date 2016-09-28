@@ -1,17 +1,28 @@
 package com.devgrafix.requestbreakfast.model;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 /**
  * Created by PC-MA13 on 10/09/2016.
  */
-public class Person implements Serializable {
-    private int id;
+@Table(name = "tbl_person")
+public class Person extends Model implements Serializable {
+
+    @Column(name = "person_name")
     private String pseudo;
+    @Column(name = "description")
     private String description;
+    @Column(name = "avatar")
     private String avatar;
 
     public Person() {
+        super();
     }
 
     public Person(String pseudo, String description) {
@@ -20,13 +31,6 @@ public class Person implements Serializable {
 
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getPseudo() {
         return pseudo;
@@ -50,5 +54,23 @@ public class Person implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public static List<Person> getAll(){
+        return new Select()
+                .from(Person.class)
+                .orderBy("person_name ASC")
+                .execute();
+    }
+    public static Person getOneById(long id){
+        return new Select()
+                .from(Person.class)
+                .where("Id = ?", id)
+                .executeSingle();
+    }
+
+    @Override
+    public String toString() {
+        return  "{"+ this.getId() + "} " + this.getPseudo();
     }
 }

@@ -24,7 +24,7 @@ import com.devgrafix.requestbreakfast.RecyclerView.ClickListener;
 import com.devgrafix.requestbreakfast.RecyclerView.DividerItemDecoration;
 import com.devgrafix.requestbreakfast.RecyclerView.RecyclerTouchListener;
 import com.devgrafix.requestbreakfast.foodList.FoodsAdapter;
-import com.devgrafix.requestbreakfast.managers.FoodManager;
+
 import com.devgrafix.requestbreakfast.model.Food;
 
 import java.util.List;
@@ -32,7 +32,7 @@ import java.util.List;
 public class ListFoodActivity extends AppCompatActivity {
     final Context listFoodContext = this;
     private List<Food> foodList;
-    protected FoodManager foodManager;
+
     private RecyclerView foodRecyclerView;
     private FoodsAdapter foodsAdapter;
     private void initViews(){
@@ -47,8 +47,7 @@ public class ListFoodActivity extends AppCompatActivity {
         //setSupportActionBar(toolbar);
         initCollapsingToolbar();
         initViews();
-        foodManager = new FoodManager(getApplicationContext());
-        foodList = foodManager.findAll();
+        foodList = Food.getAll();
         foodsAdapter = new FoodsAdapter(listFoodContext, foodList);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
         foodRecyclerView.setLayoutManager(mLayoutManager);
@@ -75,7 +74,7 @@ public class ListFoodActivity extends AppCompatActivity {
 
         if (requestCode == 199){
             //String newName = data.getStringExtra("foodName");
-            foodList = foodManager.findAll();
+            foodList = Food.getAll();
             foodsAdapter.setFoodsList(foodList);
             foodsAdapter.notifyDataSetChanged();
         }

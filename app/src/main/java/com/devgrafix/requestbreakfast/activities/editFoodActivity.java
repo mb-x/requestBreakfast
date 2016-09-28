@@ -9,14 +9,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.devgrafix.requestbreakfast.R;
-import com.devgrafix.requestbreakfast.managers.FoodManager;
+
 import com.devgrafix.requestbreakfast.model.Food;
+import com.devgrafix.requestbreakfast.model.Person;
 
 public class editFoodActivity extends AppCompatActivity {
 
     protected EditText edt_foodName;
     protected EditText edt_foodPrice;
-    protected int foodId;
+    protected long foodId;
     protected Button btnSaveFood;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class editFoodActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_food);
 
         Intent intent = getIntent();
-        foodId = intent.getIntExtra("foodId", 0);
+        foodId = intent.getLongExtra("foodId", 0);
         String foodName= intent.getStringExtra("foodName");
         Float foodPrice= intent.getFloatExtra("foodPrice", 0);
         initViews();
@@ -44,13 +45,13 @@ public class editFoodActivity extends AppCompatActivity {
         btnSaveFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FoodManager foodManager = new FoodManager(getApplicationContext());
+
                 String foodName = edt_foodName.getText().toString();
                 Float foodPrice = edt_foodPrice.getText().toString() != "" ? Float.valueOf(edt_foodPrice.getText().toString()): 0;
-                Food food = foodManager.findById(foodId);
+                Food food = Food.getOneById(foodId);
                 food.setFoodName(foodName);
                 food.setFoodPrice(foodPrice);
-                foodManager.update(food);
+                food.save();
                 Toast.makeText(getApplicationContext(), "The food " + foodName + " is successfully saved", Toast.LENGTH_LONG).show();
                 Intent newIntent = new Intent();
                 newIntent.putExtra("foodName", food.getFoodName());

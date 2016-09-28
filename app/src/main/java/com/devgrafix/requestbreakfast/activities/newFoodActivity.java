@@ -8,8 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.devgrafix.requestbreakfast.R;
-import com.devgrafix.requestbreakfast.managers.FoodManager;
-import com.devgrafix.requestbreakfast.managers.PersonManager;
+import com.devgrafix.requestbreakfast.model.Food;
+
 
 public class newFoodActivity extends AppCompatActivity {
 
@@ -35,10 +35,13 @@ public class newFoodActivity extends AppCompatActivity {
         btnSaveFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FoodManager foodManager = new FoodManager(getApplicationContext());
+
                 String foodName = edt_foodName.getText().toString();
                 Float foodPrice = Float.valueOf(edt_foodPrice.getText().toString());
-                foodManager.add(foodName, foodPrice);
+                Food food = new Food();
+                food.setFoodName(foodName);
+                food.setFoodPrice(foodPrice);
+                food.save();
                 Toast.makeText(getApplicationContext(), "The food " + foodName + " is successfully saved", Toast.LENGTH_LONG).show();
             }
         });

@@ -14,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.devgrafix.requestbreakfast.managers.PersonManager;
+
 import com.devgrafix.requestbreakfast.R;
 import com.devgrafix.requestbreakfast.model.Person;
 import com.devgrafix.requestbreakfast.personList.PersonAdapter;
@@ -28,7 +28,7 @@ public class listPresonsActivity extends AppCompatActivity {
     protected Person selectedPerson;
     protected int selectedPersonPosition;
     protected PersonAdapter personAdapter;
-    protected PersonManager personManager;
+
     protected ListView listPersons;
     protected List<Person> persons;
 
@@ -37,13 +37,13 @@ public class listPresonsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_presons);
         listPersons = (ListView)findViewById(R.id.list_persons);
-         personManager = new PersonManager(getApplicationContext());
+
         displayResultList();
         registerForContextMenu(listPersons);
     }
 
     private void displayResultList() {
-        persons = personManager.findAll();
+        persons = Person.getAll();
         personAdapter = new PersonAdapter(listPresonsActivity.this, persons);
     //ArrayAdapter<String> adapter= new ArrayAdapter<String>(listPresonsActivity.this, android.R.layout.simple_list_item_1, prenoms);
 
@@ -74,7 +74,7 @@ public class listPresonsActivity extends AppCompatActivity {
         String menuItemName = menuItems[menuItemId];
         selectedPersonPosition = info.position;
         selectedPerson = persons.get(info.position);
-
+        Toast.makeText(getApplicationContext(), selectedPerson.toString(), Toast.LENGTH_LONG).show();
         switch (menuItemId){
             case 0: //edit
                 Intent nextIntent = new Intent(listPresonsActivity.this, editPersonActivity.class);
@@ -115,7 +115,8 @@ public class listPresonsActivity extends AppCompatActivity {
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //your deleting code
-                        personManager.delete(selectedPerson.getId());
+
+                        selectedPerson.delete();
                         persons.remove(position);
                         personAdapter.notifyDataSetChanged();
                         Toast.makeText(getApplicationContext(),selectedPerson.getPseudo()+" is deleted successfully", Toast.LENGTH_LONG ).show();

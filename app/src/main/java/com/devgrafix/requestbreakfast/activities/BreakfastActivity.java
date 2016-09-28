@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.devgrafix.requestbreakfast.Fragments.BreakfastFragment;
 import com.devgrafix.requestbreakfast.R;
-import com.devgrafix.requestbreakfast.managers.PersonManager;
 import com.devgrafix.requestbreakfast.model.Person;
 
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ public class BreakfastActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private List<Person> personList;
-    private PersonManager personManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +30,7 @@ public class BreakfastActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        personManager = new PersonManager(getApplicationContext());
-        personList = personManager.findAll();
+        personList = Person.getAll();
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
