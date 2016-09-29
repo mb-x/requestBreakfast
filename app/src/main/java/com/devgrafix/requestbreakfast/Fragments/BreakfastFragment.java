@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,8 @@ import com.devgrafix.requestbreakfast.R;
 import com.devgrafix.requestbreakfast.model.Breakfast;
 import com.devgrafix.requestbreakfast.model.Food;
 import com.devgrafix.requestbreakfast.model.Person;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,9 +54,12 @@ public class BreakfastFragment extends Fragment implements AdapterView.OnItemSel
 
     private View view;
     private TextView textView;
+    private TextView txt_total_price;
+    private TextView txt_rest;
     private TableLayout tableFood;
     private Spinner spinnerFood;
     private EditText inputQuantity;
+    private EditText inputGivenAmmount;
     private Button addFoodItem;
 
 
@@ -82,9 +89,12 @@ public class BreakfastFragment extends Fragment implements AdapterView.OnItemSel
     }
     private void initViews(View parentView){
         textView = (TextView) parentView.findViewById(R.id.txt_person_name);
+        txt_total_price = (TextView) parentView.findViewById(R.id.txt_total_price);
+        txt_rest = (TextView) parentView.findViewById(R.id.txt_rest);
         tableFood = (TableLayout) parentView.findViewById(R.id.table_food);
         spinnerFood = (Spinner) parentView.findViewById(R.id.spinner_foods);
         inputQuantity= (EditText) parentView.findViewById(R.id.inputQuantity);
+        inputGivenAmmount= (EditText) parentView.findViewById(R.id.inputGivenAmmount);
         addFoodItem = (Button) parentView.findViewById(R.id.btn_add_food_item);
 
     }
@@ -101,6 +111,29 @@ public class BreakfastFragment extends Fragment implements AdapterView.OnItemSel
                 refreshTable();
             }
         });
+        inputGivenAmmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Float total = Float.valueOf(0);
+                Float givenAmount = Float.valueOf(inputGivenAmmount.getText().toString()!= ""? inputGivenAmmount.getText().toString(): "0");
+                breakfastList = Breakfast.findByPersonAndDate(mPerson, Breakfast.convertDateToFormatedString(new Date()));
+                for(int i=0 ; i < breakfastList.size() ; i++){
+                    total += breakfastList.get(i).getFood().getFoodPrice() * breakfastList.get(i).getQuantity();
+                }
+                txt_total_price.setText(String.valueOf(total));
+                txt_rest.setText(String.valueOf(givenAmount-total));
+            }
+        });
     }
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -113,10 +146,15 @@ public class BreakfastFragment extends Fragment implements AdapterView.OnItemSel
         fillTableFromDatabase();
     }
     public void fillTableFromDatabase(){
+        Float total = Float.valueOf(0);
+        Float givenAmount = Float.valueOf(inputGivenAmmount.getText().toString());
         breakfastList = Breakfast.findByPersonAndDate(mPerson, Breakfast.convertDateToFormatedString(new Date()));
         for(int i=0 ; i < breakfastList.size() ; i++){
+            total += breakfastList.get(i).getFood().getFoodPrice() * breakfastList.get(i).getQuantity();
             addBreakfastToTable(breakfastList.get(i));
         }
+        txt_total_price.setText(String.valueOf(total));
+        txt_rest.setText(String.valueOf(givenAmount-total));
     }
 
     public void refreshTable(){
