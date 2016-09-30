@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:text="Save"
         android:id="@+id/btn_save_person"
-        android:layout_below="@+id/txt_person_name"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/btn_take_picture"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,6 +37,23 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take picture"
+        android:id="@+id/btn_take_picture"
+        android:layout_below="@+id/txt_person_name"
+        android:layout_alignRight="@+id/btn_save_person"
+        android:layout_alignEnd="@+id/btn_save_person"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivImage"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

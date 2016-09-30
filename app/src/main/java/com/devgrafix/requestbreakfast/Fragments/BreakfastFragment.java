@@ -23,7 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.util.Util;
 import com.devgrafix.requestbreakfast.R;
+import com.devgrafix.requestbreakfast.Utils.Utils;
 import com.devgrafix.requestbreakfast.model.Breakfast;
 import com.devgrafix.requestbreakfast.model.Food;
 import com.devgrafix.requestbreakfast.model.Person;
@@ -125,13 +127,20 @@ public class BreakfastFragment extends Fragment implements AdapterView.OnItemSel
             @Override
             public void afterTextChanged(Editable s) {
                 Float total = Float.valueOf(0);
-                Float givenAmount = Float.valueOf(inputGivenAmmount.getText().toString()!= ""? inputGivenAmmount.getText().toString(): "0");
+                String strGivenAmount = inputGivenAmmount.getText().toString();
+                Float givenAmount;
+                try {
+                    givenAmount = Float.valueOf(inputGivenAmmount.getText().toString());
+                }catch (NumberFormatException e){
+                    System.out.println(e.getMessage());
+                    givenAmount = Float.valueOf(0);
+                }
                 breakfastList = Breakfast.findByPersonAndDate(mPerson, Breakfast.convertDateToFormatedString(new Date()));
                 for(int i=0 ; i < breakfastList.size() ; i++){
                     total += breakfastList.get(i).getFood().getFoodPrice() * breakfastList.get(i).getQuantity();
                 }
                 txt_total_price.setText(String.valueOf(total));
-                txt_rest.setText(String.valueOf(givenAmount-total));
+                txt_rest.setText(String.valueOf(Utils.round(givenAmount-total, 2)));
             }
         });
     }
